@@ -1,0 +1,123 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Project Title</title>
+  <meta name="description" content="Project description">
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link rel="stylesheet" href="style.css?v=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+   <div id="container" style="text-align:center;margin-top:30px">
+    <div id="container2" style="width:70%;margin-left: 15%;margin-right: 2%;">
+        <div>Select one category you think this collection belongs to</div>
+
+
+        <div class="row">
+            <div class="col-sm-8" style="text-align:right">
+                <div id="top" style="margin-top:20px">
+                    <img id="imgplace" src="" data-idn="" width="500">
+                </div>
+            </div>
+            <div class="col-sm-7" style="text-align:left">
+                <div class="custom-control custom-radio">
+                <input type="radio" id="option1" name="imgSelect" class="custom-control-input" value="0" >
+                <label class="custom-control-label" for="option1">Coin</label>
+                </div>
+                <div class="custom-control custom-radio">
+                <input type="radio" id="option2" name="imgSelect" class="custom-control-input" value="1" >
+                <label class="custom-control-label" for="option2">Painting</label>
+                </div>
+                <div class="custom-control custom-radio">
+                <input type="radio" id="option3" name="imgSelect" class="custom-control-input" value="2" >
+                <label class="custom-control-label" for="option3">Photo</label>
+                </div>
+                <div class="custom-control custom-radio">
+                <input type="radio" id="option4" name="imgSelect" class="custom-control-input" value="3" >
+                <label class="custom-control-label" for="option4">Pottery</label>
+                </div>
+				<div class="custom-control custom-radio">
+                <input type="radio" id="option5" name="imgSelect" class="custom-control-input" value="4" >
+                <label class="custom-control-label" for="option5">Sculpture</label>
+                </div>
+				<div class="custom-control custom-radio">
+                <input type="radio" id="option6" name="imgSelect" class="custom-control-input" value="5" >
+                <label class="custom-control-label" for="option6">Text/Document</label>
+                </div>
+				<div class="custom-control custom-radio">
+                <input type="radio" id="option7" name="imgSelect" class="custom-control-input" value="6" >
+                <label class="custom-control-label" for="option7">Other</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row " style="margin-top:30px;">
+            <div class="col-sm" style="text-align:center">
+            <button id="meskip" type="button" onclick="nextimg()" class="btn btn-info">Next</button>
+            </div>
+        </div>
+
+        <div id="end" style="margin-top:30px;">
+            <button id="stop" type="button" onclick="endtest()" class="btn btn-success">End Test</button>
+        </div>
+
+
+        <div id="end2" style="margin-top:5px;margin-bottom:30px;">
+        </div>
+     </div>
+    </div>
+
+  <script>
+    path ="images/";
+    n_img = 20;
+    init_img = 1;
+    var recordselection = [];
+    var slect = "";
+    $(document).ready(function(){
+        $("#imgplace").attr("src",path+"img"+init_img+".jpg");
+        $('#stop').prop('disabled', true);
+        /*$('.custom-radio input').on('change', function() {
+            slect = $('.custom-radio input:radio:checked').val()
+            alert(slect);
+        });*/
+    });
+
+    function nextimg() {
+        if (init_img>=n_img) {
+            if (init_img==n_img)
+                selectimg();
+            $('#meskip').prop('disabled', true);
+            $('#stop').prop('disabled', false);
+        }
+        else {
+            selectimg();
+            init_img += 1;
+            if (init_img<=n_img)
+                $("#imgplace").attr("src",path+"img"+init_img+".jpg");
+        }
+    }
+
+    function selectimg() {
+        var myRadio = $("input[name=imgSelect]");
+        var idVal = myRadio.filter(":checked").attr('id');
+        var selected = $("input[id='"+idVal+"']").val();
+        console.log(selected);
+        recordselection.push(["img"+init_img,selected]);
+    }
+
+    function endtest() {
+        var obj = {};
+        obj["results"] = recordselection;
+        var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
+
+        $('<a href="data:' + data + '" download="data.json">Download results</a>').appendTo('#end2');
+    }
+
+  </script>
+</body>
+</html>
